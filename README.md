@@ -43,7 +43,7 @@ Este projeto implementa o algoritmo da Rede Neural de Hopfield em Python para ar
     - `python testar_modelo.py` - Para testar a rede com o padrão desconhecido presente no arquivo Excel
 
 - **Codespaces:**
-    <br>No repositório do GitHub, clique em ![](https://img.shields.io/badge/%3C%3E_Code_▾-238636?style=flat), depois em `Codespaces` e por fim em ![](https://img.shields.io/badge/Create_codespace_on_main-238636?style=flat).
+    <br>No repositório do GitHub, clique em ![](https://img.shields.io/badge/%3C%3E_Code_▾-238636?style=flat), depois em `Codespaces` e por fim em ![](https://img.shields.io/badge/Create_codespace_on_main-238636?style=flat)
     <br>Assim que o Codespace for criado, execute no terminal:
     - `pip install numpy pandas openpyxl` - Para instalar as bibliotecas necessárias
     - `python hopfield.py` - Para realizar inicializar a rede e apresentar os pesos obtidos
@@ -63,6 +63,8 @@ $$w_{ij} = 0 \text{~~~~,~~~~se~~} i = j$$
 
 Onde $w_{ij}$ representa o peso da conexão entre os neurônios $i$ e $j$, $x_i^r$ representa o i-ésimo elemento do padrão $r$ e $M$ representa a quantidade de padrões armazenados.
 
+<br>
+
 ```
 def calcular_pesos(padroes):
 
@@ -73,6 +75,8 @@ def calcular_pesos(padroes):
     return pesos
 ```
 
+<br>
+
 - **Somatória dos pesos:**
 
 Durante o processo iterativo, cada neurônio recebe uma soma ponderada das saídas dos demais neurônios:
@@ -81,9 +85,13 @@ $$u_j(t) = \sum_i w_{ij}y_i(t)$$
 
 Onde $u_j(t)$ representa a entrada do neurônio $j$ no instante $t$, $w_{ij}$ representa os pesos das conexões e $y_i(t)$ representa a saída do neurônio $i$ no instante $t$.
 
+<br>
+
 ```
 somas = np.dot(pesos, estado)
 ```
+
+<br>
 
 - **Nova saída e Função de ativação:**
 
@@ -101,9 +109,13 @@ f(u) =
 \end{cases}
 $$
 
+<br>
+
 ```
 novo_estado = np.where(somas >= 0, 1, -1)
 ```
+
+<br>
 
 - **Processo iterativo:**
 
@@ -112,6 +124,8 @@ A rede recebe um padrão desconhecido como estado inicial e realiza sucessivas a
 $$y(t+1) = f(Wy(t))$$
 
 Onde $W$ representa a matriz de pesos e $y(t)$ representa o estado atual da rede.
+
+<br>
 
 ```
 for epoca in range(1, max_epocas + 1):
@@ -124,6 +138,8 @@ for epoca in range(1, max_epocas + 1):
     estado = novo_estado
 ```
 
+<br>
+
 - **Reconhecimento do padrão:**
 
 Após a estabilização, o estado final da rede é comparado com os padrões armazenados para identificar o padrão ao qual a entrada está mais associada.
@@ -134,6 +150,8 @@ $$erro = \sum_i [y_i \neq x_i]$$
 
 Onde $y_i$ representa o estado final da rede e $x_i$ representa o i-ésimo elemento do padrão armazenado.
 
+<br>
+
 ```
 distancias = np.sum(padroes != estado, axis=1)
 
@@ -141,6 +159,8 @@ indice = np.argmin(distancias)
 
 return indice, distancias[indice]
 ```
+
+<br>
 
 ---
 
